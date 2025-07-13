@@ -10,8 +10,12 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "SkillSwap - Exchange Skills with Others",
   description: "A platform to swap skills and learn from each other",
-  viewport: "width=device-width, initial-scale=1",
-    generator: 'v0.dev'
+  generator: 'v0.dev'
+}
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
 }
 
 export default function RootLayout({
@@ -26,9 +30,6 @@ export default function RootLayout({
         <Script
           src="https://upload-widget.cloudinary.com/global/all.js"
           strategy="beforeInteractive"
-          onLoad={() => {
-            console.log("Cloudinary widget loaded successfully")
-          }}
         />
       </head>
       <body className={inter.className}>
