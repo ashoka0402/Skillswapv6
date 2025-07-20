@@ -16,7 +16,9 @@ import { collection, query, where, getDocs, limit } from "firebase/firestore"
 import { db } from "@/lib/firebase"
 import { getAvatarById } from "@/lib/avatars"
 import { useTheme } from "next-themes"
-import type { User } from "@/lib/auth-context"
+import type { User as BaseUser } from "@/lib/auth-context"
+
+type User = BaseUser & { profilePhoto?: string }
 
 export default function HomePage() {
   const { user, loading } = useAuth()
@@ -24,7 +26,7 @@ export default function HomePage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [availabilityFilter, setAvailabilityFilter] = useState("all")
   const [currentPage, setCurrentPage] = useState(1)
-  const [selectedUser, setSelectedUser] = useState(null)
+  const [selectedUser, setSelectedUser] = useState<User | null>(null)
   const [showRequestModal, setShowRequestModal] = useState(false)
   const [loadingUsers, setLoadingUsers] = useState(true)
   const itemsPerPage = 6
@@ -38,10 +40,26 @@ export default function HomePage() {
     try {
       const usersQuery = query(collection(db, "users"), where("isPublic", "==", true), limit(50))
       const querySnapshot = await getDocs(usersQuery)
-      const fetchedUsers = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }))
+      const fetchedUsers = querySnapshot.docs.map((doc) => {
+        const data = doc.data() as Partial<User>
+        return {
+          id: doc.id,
+          name: data.name || "Unknown",
+          email: data.email || "",
+          avatar: data.avatar || "",
+          location: data.location || "",
+          skillsOffered: data.skillsOffered || [],
+          skillsWanted: data.skillsWanted || [],
+          availability: data.availability || "flexible",
+          isPublic: data.isPublic ?? true,
+          rating: data.rating ?? 5.0,
+          bio: data.bio || "",
+          isAdmin: data.isAdmin || false,
+          completedSwaps: data.completedSwaps || 0,
+          createdAt: data.createdAt || new Date(),
+          profilePhoto: (data as any).profilePhoto || "",
+        } as User & { profilePhoto?: string }
+      })
 
       // Filter out admin users and current user
       const filteredUsers = fetchedUsers.filter((u) => u.id !== user?.id && !u.isAdmin)
@@ -91,7 +109,7 @@ export default function HomePage() {
       }
     }
     return {
-      image: profile.profilePhoto || "/placeholder.svg",
+      image: profile.profilePhoto ? profile.profilePhoto : "/placeholder.svg",
       fallback: profile.name.charAt(0),
       gradient: "from-blue-500 to-purple-500",
     }
@@ -254,7 +272,7 @@ export default function HomePage() {
               placeholder="Search by skills or name..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 bg-white/50 border-gray-200 focus:bg-white"
+              className="pl-10 bg-input text-foreground placeholder:text-muted-foreground border-border focus:bg-background"
             />
           </div>
           <Select value={availabilityFilter} onValueChange={setAvailabilityFilter}>
