@@ -12,7 +12,7 @@ import {
 import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore"
 import { auth, db } from "./firebase"
 
-interface User {
+export interface User {
   id: string
   name: string
   email: string
@@ -28,6 +28,8 @@ interface User {
   completedSwaps?: number
   createdAt: Date
 }
+
+export type { User }
 
 interface AuthContextType {
   user: User | null
