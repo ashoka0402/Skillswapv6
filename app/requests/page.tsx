@@ -191,15 +191,15 @@ export default function RequestsPage() {
     const getStatusColor = (status: string) => {
       switch (status) {
         case "pending":
-          return "bg-yellow-100 text-yellow-800 border-yellow-200"
+          return "bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 border-yellow-200 dark:border-yellow-700"
         case "accepted":
-          return "bg-green-100 text-green-800 border-green-200"
+          return "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 border-green-200 dark:border-green-700"
         case "completed":
-          return "bg-blue-100 text-blue-800 border-blue-200"
+          return "bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 border-blue-200 dark:border-blue-700"
         case "rejected":
-          return "bg-red-100 text-red-800 border-red-200"
+          return "bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 border-red-200 dark:border-red-700"
         default:
-          return "bg-gray-100 text-gray-800 border-gray-200"
+          return "bg-muted text-muted-foreground border-border"
       }
     }
 
@@ -222,7 +222,7 @@ export default function RequestsPage() {
     const avatarDisplay = getAvatarDisplay()
 
     return (
-      <Card className="bg-white/70 backdrop-blur-sm border-white/20 hover:shadow-lg transition-all duration-300">
+      <Card className="bg-card text-card-foreground hover:shadow-lg transition-all duration-300">
         <CardContent className="p-6">
           <div className="flex items-start space-x-4">
             <Avatar className="h-14 w-14 ring-2 ring-blue-200">
@@ -234,7 +234,7 @@ export default function RequestsPage() {
 
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="font-semibold text-lg text-gray-900 truncate">{otherUserName}</h3>
+                <h3 className="font-semibold text-lg text-foreground truncate">{otherUserName}</h3>
                 <div
                   className={`px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1 border ${getStatusColor(request.status)}`}
                 >
@@ -244,10 +244,10 @@ export default function RequestsPage() {
               </div>
 
               <div className="flex items-center space-x-3 mb-3">
-                <Badge className="bg-blue-100 text-blue-800 border-blue-200">
+                <Badge className="bg-primary/10 text-primary border-primary/20">
                   {type === "sent" ? request.senderSkill : request.receiverSkill}
                 </Badge>
-                <ArrowRight className="h-4 w-4 text-gray-400" />
+                <ArrowRight className="h-4 w-4 text-muted-foreground" />
                 <Badge variant="outline" className="border-purple-200 text-purple-700">
                   {type === "sent" ? request.receiverSkill : request.senderSkill}
                 </Badge>
@@ -358,42 +358,45 @@ export default function RequestsPage() {
 
   if (loading || loadingRequests) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center">
+      <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading requests...</p>
+          <p className="text-muted-foreground">Loading requests...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
       {/* Enhanced Header */}
-      <header className="bg-white/80 backdrop-blur-md shadow-sm border-b border-white/20 sticky top-0 z-50">
+      <header className="bg-card/80 backdrop-blur-md shadow-sm border-b border-border sticky top-0 z-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-2 rounded-xl">
                 <Sparkles className="h-6 w-6 text-white" />
               </div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 Swap Requests
               </h1>
             </div>
-            <Button
-              variant="outline"
-              onClick={() => router.push("/")}
-              className="bg-white/50 hover:bg-white/80 border-blue-200"
-            >
-              <Home className="h-4 w-4 mr-2" />
-              Home
-            </Button>
+            <div className="flex items-center space-x-2 sm:space-x-3">
+              <Button
+                variant="outline"
+                onClick={() => router.push("/")}
+                className="bg-background hover:bg-accent border-border"
+                size="sm"
+              >
+                <Home className="h-4 w-4 mr-2" />
+                <span className="hidden sm:inline">Home</span>
+              </Button>
+            </div>
           </div>
         </div>
       </header>
-
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Main Content */}
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-8">
         <Tabs defaultValue="received" className="space-y-6">
           <TabsList className="grid w-full grid-cols-2 bg-white/50 backdrop-blur-sm">
             <TabsTrigger value="received" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">

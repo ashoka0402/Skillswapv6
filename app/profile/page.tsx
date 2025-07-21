@@ -16,6 +16,7 @@ import { useAuth } from "@/lib/auth-context"
 import GamificationDashboard from "@/components/gamification-dashboard"
 import AvatarSelector from "@/components/avatar-selector"
 import { getAvatarById } from "@/lib/avatars"
+import { useTheme } from "next-themes"
 
 export default function ProfilePage() {
   const { user, updateProfile, logout, loading } = useAuth()
@@ -36,6 +37,7 @@ export default function ProfilePage() {
   const [newSkillWanted, setNewSkillWanted] = useState("")
   const [isSaving, setIsSaving] = useState(false)
   const [showGamification, setShowGamification] = useState(false)
+  const { theme, setTheme } = useTheme()
 
   useEffect(() => {
     if (!loading && !user) {
@@ -143,10 +145,10 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center">
+      <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading...</p>
+          <p className="text-muted-foreground">Loading...</p>
         </div>
       </div>
     )
@@ -157,9 +159,9 @@ export default function ProfilePage() {
   const avatarDisplay = getAvatarDisplay()
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div className="min-h-screen bg-background text-foreground">
       {/* Enhanced Header */}
-      <header className="bg-white/80 backdrop-blur-md shadow-sm border-b border-white/20 sticky top-0 z-50">
+      <header className="bg-card/80 backdrop-blur-md shadow-sm border-b border-border sticky top-0 z-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
@@ -174,7 +176,7 @@ export default function ProfilePage() {
               <Button
                 variant="outline"
                 onClick={() => setShowGamification(!showGamification)}
-                className="bg-white/50 hover:bg-white/80 border-purple-200"
+                className="bg-background hover:bg-accent border-border"
                 size="sm"
               >
                 <Trophy className="h-4 w-4 mr-2" />
@@ -183,7 +185,7 @@ export default function ProfilePage() {
               <Button
                 variant="outline"
                 onClick={() => router.push("/")}
-                className="bg-white/50 hover:bg-white/80 border-blue-200"
+                className="bg-background hover:bg-accent border-border"
                 size="sm"
               >
                 <Home className="h-4 w-4 mr-2" />
@@ -192,7 +194,7 @@ export default function ProfilePage() {
               <Button
                 variant="outline"
                 onClick={logout}
-                className="bg-white/50 hover:bg-white/80 border-blue-200"
+                className="bg-background hover:bg-accent border-border"
                 size="sm"
               >
                 <LogOut className="h-4 w-4 mr-2" />
@@ -202,13 +204,11 @@ export default function ProfilePage() {
           </div>
         </div>
       </header>
-
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-8">
         {/* Gamification Dashboard */}
         {showGamification && <GamificationDashboard />}
-
         {/* Profile Card */}
-        <Card className="bg-white/70 backdrop-blur-md border-white/20 shadow-xl">
+        <Card className="shadow-xl">
           <CardHeader className="pb-6">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-4 sm:space-y-0">
               <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6">
@@ -224,7 +224,7 @@ export default function ProfilePage() {
                       size="sm"
                       variant="outline"
                       onClick={() => setShowAvatarSelector(true)}
-                      className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-white/90 border-blue-200 text-xs px-2 py-1 h-6"
+                      className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-background border-border text-xs px-2 py-1 h-6"
                     >
                       <Edit className="h-3 w-3 mr-1" />
                       Change
@@ -232,8 +232,8 @@ export default function ProfilePage() {
                   )}
                 </div>
                 <div className="text-center sm:text-left">
-                  <CardTitle className="text-2xl sm:text-3xl font-bold text-gray-900">{user.name}</CardTitle>
-                  <div className="flex flex-col sm:flex-row items-center space-y-1 sm:space-y-0 sm:space-x-4 mt-2 text-gray-600">
+                  <CardTitle className="text-2xl sm:text-3xl font-bold text-foreground">{user.name}</CardTitle>
+                  <div className="flex flex-col sm:flex-row items-center space-y-1 sm:space-y-0 sm:space-x-4 mt-2 text-muted-foreground">
                     {user.location && <span className="text-sm">{user.location}</span>}
                     <span className="text-sm">{user.rating.toFixed(1)} ⭐ rating</span>
                     {user.completedSwaps !== undefined && (
@@ -248,7 +248,7 @@ export default function ProfilePage() {
                     <Button
                       variant="outline"
                       onClick={handleDiscard}
-                      className="bg-white/50 border-gray-200 w-full sm:w-auto"
+                      className="bg-background border-border w-full sm:w-auto"
                       size="sm"
                     >
                       <RotateCcw className="h-4 w-4 mr-2" />
@@ -285,11 +285,10 @@ export default function ProfilePage() {
               </div>
             </div>
           </CardHeader>
-
           <CardContent className="space-y-6 sm:space-y-8">
             {/* Avatar Selector */}
             {showAvatarSelector && (
-              <div className="p-4 bg-blue-50 rounded-xl border border-blue-200">
+              <div className="p-4 bg-muted rounded-xl border border-border">
                 <AvatarSelector
                   currentAvatar={formData.avatar}
                   userName={formData.name}
@@ -299,7 +298,7 @@ export default function ProfilePage() {
                   <Button
                     variant="outline"
                     onClick={() => setShowAvatarSelector(false)}
-                    className="flex-1 bg-white/50 border-gray-200"
+                    className="flex-1 bg-background border-border"
                   >
                     Cancel
                   </Button>
@@ -309,11 +308,10 @@ export default function ProfilePage() {
                 </div>
               </div>
             )}
-
             {/* Basic Info */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               <div className="space-y-2">
-                <Label htmlFor="name" className="text-gray-700 font-medium">
+                <Label htmlFor="name" className="text-muted-foreground font-medium">
                   Name
                 </Label>
                 <Input
@@ -321,11 +319,11 @@ export default function ProfilePage() {
                   value={formData.name}
                   onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
                   disabled={!isEditing}
-                  className="bg-white/50 border-gray-200 focus:bg-white focus:border-blue-400"
+                  className="bg-input border-border focus:bg-background focus:border-blue-400"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="location" className="text-gray-700 font-medium">
+                <Label htmlFor="location" className="text-muted-foreground font-medium">
                   Location (Optional)
                 </Label>
                 <Input
@@ -334,14 +332,13 @@ export default function ProfilePage() {
                   onChange={(e) => setFormData((prev) => ({ ...prev, location: e.target.value }))}
                   disabled={!isEditing}
                   placeholder="City, State/Country"
-                  className="bg-white/50 border-gray-200 focus:bg-white focus:border-blue-400"
+                  className="bg-input border-border focus:bg-background focus:border-blue-400"
                 />
               </div>
             </div>
-
             {/* Bio */}
             <div className="space-y-2">
-              <Label htmlFor="bio" className="text-gray-700 font-medium">
+              <Label htmlFor="bio" className="text-muted-foreground font-medium">
                 Bio
               </Label>
               <Textarea
@@ -351,18 +348,17 @@ export default function ProfilePage() {
                 disabled={!isEditing}
                 placeholder="Tell others about yourself and your interests..."
                 rows={4}
-                className="bg-white/50 border-gray-200 focus:bg-white focus:border-blue-400"
+                className="bg-input border-border focus:bg-background focus:border-blue-400"
               />
             </div>
-
             {/* Skills Offered */}
             <div className="space-y-4">
-              <Label className="text-gray-700 font-medium text-lg">Skills I Can Teach</Label>
+              <Label className="text-muted-foreground font-medium text-lg">Skills I Can Teach</Label>
               <div className="flex flex-wrap gap-2 mb-3">
                 {formData.skillsOffered.map((skill) => (
                   <Badge
                     key={skill}
-                    className="bg-blue-100 text-blue-800 border-blue-200 flex items-center gap-2 px-3 py-1"
+                    className="bg-primary/10 text-primary border-primary/20 flex items-center gap-2 px-3 py-1"
                   >
                     {skill}
                     {isEditing && (
@@ -381,7 +377,7 @@ export default function ProfilePage() {
                     onChange={(e) => setNewSkillOffered(e.target.value)}
                     placeholder="Add a skill you can teach"
                     onKeyPress={(e) => e.key === "Enter" && addSkillOffered()}
-                    className="bg-white/50 border-gray-200 focus:bg-white focus:border-blue-400 flex-1"
+                    className="bg-input border-border focus:bg-background focus:border-blue-400 flex-1"
                   />
                   <Button
                     size="sm"
@@ -394,16 +390,15 @@ export default function ProfilePage() {
                 </div>
               )}
             </div>
-
             {/* Skills Wanted */}
             <div className="space-y-4">
-              <Label className="text-gray-700 font-medium text-lg">Skills I Want to Learn</Label>
+              <Label className="text-muted-foreground font-medium text-lg">Skills I Want to Learn</Label>
               <div className="flex flex-wrap gap-2 mb-3">
                 {formData.skillsWanted.map((skill) => (
                   <Badge
                     key={skill}
                     variant="outline"
-                    className="border-purple-200 text-purple-700 flex items-center gap-2 px-3 py-1"
+                    className="border-purple-400 text-purple-300 flex items-center gap-2 px-3 py-1"
                   >
                     {skill}
                     {isEditing && (
@@ -422,7 +417,7 @@ export default function ProfilePage() {
                     onChange={(e) => setNewSkillWanted(e.target.value)}
                     placeholder="Add a skill you want to learn"
                     onKeyPress={(e) => e.key === "Enter" && addSkillWanted()}
-                    className="bg-white/50 border-gray-200 focus:bg-white focus:border-blue-400 flex-1"
+                    className="bg-input border-border focus:bg-background focus:border-blue-400 flex-1"
                   />
                   <Button
                     size="sm"
@@ -435,10 +430,9 @@ export default function ProfilePage() {
                 </div>
               )}
             </div>
-
             {/* Availability */}
             <div className="space-y-2">
-              <Label htmlFor="availability" className="text-gray-700 font-medium">
+              <Label htmlFor="availability" className="text-muted-foreground font-medium">
                 Availability
               </Label>
               <Select
@@ -446,7 +440,7 @@ export default function ProfilePage() {
                 onValueChange={(value) => setFormData((prev) => ({ ...prev, availability: value }))}
                 disabled={!isEditing}
               >
-                <SelectTrigger className="bg-white/50 border-gray-200 focus:border-blue-400">
+                <SelectTrigger className="bg-input border-border focus:border-blue-400">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -457,14 +451,13 @@ export default function ProfilePage() {
                 </SelectContent>
               </Select>
             </div>
-
             {/* Privacy */}
-            <div className="flex items-center justify-between p-4 sm:p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl border border-blue-200">
+            <div className="flex items-center justify-between p-4 sm:p-6 bg-muted rounded-xl border border-border">
               <div>
-                <Label htmlFor="public-profile" className="text-gray-700 font-medium text-base sm:text-lg">
+                <Label htmlFor="public-profile" className="text-muted-foreground font-medium text-base sm:text-lg">
                   Public Profile
                 </Label>
-                <p className="text-sm text-gray-600 mt-1">Allow others to see your profile and send swap requests</p>
+                <p className="text-sm text-muted-foreground mt-1">Allow others to see your profile and send swap requests</p>
               </div>
               <Switch
                 id="public-profile"

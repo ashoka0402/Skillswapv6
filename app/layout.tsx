@@ -4,6 +4,8 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import { AuthProvider } from "@/lib/auth-context"
 import Script from "next/script"
+import { ThemeProvider } from "@/components/theme-provider"
+import GlobalThemePanel from "@/components/global-theme-panel"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -23,6 +25,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  // Add theme panel globally
   return (
     <html lang="en">
       <head>
@@ -33,7 +36,10 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <AuthProvider>{children}</AuthProvider>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
+          <GlobalThemePanel />
+          <AuthProvider>{children}</AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

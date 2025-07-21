@@ -65,9 +65,9 @@ export default function SwapRequestModal({ isOpen, onClose, targetUser, currentU
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md bg-white/95 backdrop-blur-md border-white/20">
+      <DialogContent className="sm:max-w-md bg-card text-card-foreground border border-border">
         <DialogHeader>
-          <DialogTitle className="flex items-center text-xl font-bold text-gray-900">
+          <DialogTitle className="flex items-center text-xl font-bold text-foreground">
             <Sparkles className="h-5 w-5 mr-2 text-blue-600" />
             Send Swap Request
           </DialogTitle>
@@ -75,7 +75,7 @@ export default function SwapRequestModal({ isOpen, onClose, targetUser, currentU
 
         <div className="space-y-6">
           {/* Target User Info */}
-          <div className="flex items-center space-x-3 p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl border border-blue-100">
+          <div className="flex items-center space-x-3 p-4 bg-muted rounded-xl border border-border">
             <Avatar className="h-12 w-12 ring-2 ring-blue-200">
               <AvatarImage src={targetUser.profilePhoto || "/placeholder.svg"} />
               <AvatarFallback className="bg-gradient-to-r from-blue-500 to-purple-500 text-white">
@@ -83,17 +83,17 @@ export default function SwapRequestModal({ isOpen, onClose, targetUser, currentU
               </AvatarFallback>
             </Avatar>
             <div>
-              <h3 className="font-semibold text-gray-900">{targetUser.name}</h3>
-              <p className="text-sm text-gray-600">{targetUser.location}</p>
+              <h3 className="font-semibold text-foreground">{targetUser.name}</h3>
+              <p className="text-sm text-muted-foreground">{targetUser.location}</p>
             </div>
           </div>
 
           {/* Skill Selection */}
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Your skill to offer:</label>
+              <label className="block text-sm font-semibold text-muted-foreground mb-2">Your skill to offer:</label>
               <Select value={selectedOfferedSkill} onValueChange={setSelectedOfferedSkill}>
-                <SelectTrigger className="bg-white/50 border-gray-200 focus:border-blue-400">
+                <SelectTrigger className="bg-input border-border focus:border-blue-400">
                   <SelectValue placeholder="Select a skill you can teach" />
                 </SelectTrigger>
                 <SelectContent>
@@ -107,9 +107,9 @@ export default function SwapRequestModal({ isOpen, onClose, targetUser, currentU
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Skill you want to learn:</label>
+              <label className="block text-sm font-semibold text-muted-foreground mb-2">Skill you want to learn:</label>
               <Select value={selectedWantedSkill} onValueChange={setSelectedWantedSkill}>
-                <SelectTrigger className="bg-white/50 border-gray-200 focus:border-blue-400">
+                <SelectTrigger className="bg-input border-border focus:border-blue-400">
                   <SelectValue placeholder="Select a skill they can teach" />
                 </SelectTrigger>
                 <SelectContent>
@@ -125,27 +125,27 @@ export default function SwapRequestModal({ isOpen, onClose, targetUser, currentU
 
           {/* Message */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">Message:</label>
+            <label className="block text-sm font-semibold text-muted-foreground mb-2">Message:</label>
             <Textarea
               placeholder="Introduce yourself and explain why you'd like to swap skills..."
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               rows={4}
-              className="bg-white/50 border-gray-200 focus:border-blue-400 focus:bg-white"
+              className="bg-input border-border focus:border-blue-400 focus:bg-background"
             />
           </div>
 
           {/* Preview */}
           {selectedOfferedSkill && selectedWantedSkill && (
-            <div className="p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl border border-green-200">
-              <h4 className="font-semibold text-sm mb-3 text-gray-700 flex items-center">
+            <div className="p-4 bg-muted rounded-xl border border-border">
+              <h4 className="font-semibold text-sm mb-3 text-foreground flex items-center">
                 <Sparkles className="h-4 w-4 mr-1 text-green-600" />
                 Swap Preview:
               </h4>
               <div className="flex items-center justify-between text-sm">
-                <Badge className="bg-blue-100 text-blue-800 border-blue-200">{selectedOfferedSkill}</Badge>
-                <ArrowRight className="h-4 w-4 text-gray-400 mx-2" />
-                <Badge variant="outline" className="border-purple-200 text-purple-700">
+                <Badge className="bg-primary/10 text-primary border-primary/20">{selectedOfferedSkill}</Badge>
+                <ArrowRight className="h-4 w-4 text-muted-foreground mx-2" />
+                <Badge variant="outline" className="border-purple-400 text-purple-300">
                   {selectedWantedSkill}
                 </Badge>
               </div>
@@ -154,7 +154,7 @@ export default function SwapRequestModal({ isOpen, onClose, targetUser, currentU
 
           {/* Actions */}
           <div className="flex space-x-3">
-            <Button variant="outline" onClick={onClose} className="flex-1 bg-white/50 border-gray-200 hover:bg-white">
+            <Button variant="outline" onClick={onClose} className="flex-1 bg-background border-border hover:bg-accent">
               Cancel
             </Button>
             <Button

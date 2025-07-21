@@ -55,10 +55,10 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center">
+      <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading profile...</p>
+          <p className="text-muted-foreground">Loading profile...</p>
         </div>
       </div>
     )
@@ -66,14 +66,14 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
 
   if (error || !profileUser) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center px-4">
-        <Card className="bg-white/70 backdrop-blur-md border-white/20 shadow-xl max-w-md w-full">
+      <div className="min-h-screen bg-background text-foreground flex items-center justify-center px-4">
+        <Card className="bg-card border border-border shadow-xl max-w-md w-full">
           <CardContent className="text-center py-12">
             <div className="text-6xl mb-4">🔒</div>
-            <h2 className="text-xl font-semibold mb-2 text-gray-900">
+            <h2 className="text-xl font-semibold mb-2 text-foreground">
               {error === "This profile is private" ? "Private Profile" : "Profile Not Found"}
             </h2>
-            <p className="text-gray-600 mb-6">
+            <p className="text-muted-foreground mb-6">
               {error === "This profile is private"
                 ? "This user has set their profile to private."
                 : "This profile doesn't exist or has been removed."}
@@ -92,9 +92,9 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div className="min-h-screen bg-background text-foreground">
       {/* Enhanced Header */}
-      <header className="bg-white/80 backdrop-blur-md shadow-sm border-b border-white/20 sticky top-0 z-50">
+      <header className="bg-card/80 backdrop-blur-md shadow-sm border-b border-border sticky top-0 z-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
@@ -108,7 +108,7 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
             <Button
               variant="outline"
               onClick={() => router.push("/")}
-              className="bg-white/50 hover:bg-white/80 border-blue-200"
+              className="bg-background hover:bg-accent border-border"
               size="sm"
             >
               <Home className="h-4 w-4 mr-2" />
@@ -117,9 +117,8 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
           </div>
         </div>
       </header>
-
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-        <Card className="bg-white/70 backdrop-blur-md border-white/20 shadow-xl">
+        <Card className="bg-card border border-border shadow-xl">
           <CardHeader className="pb-6">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-4 sm:space-y-0">
               <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-6 w-full">
@@ -130,10 +129,10 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
                   </AvatarFallback>
                 </Avatar>
                 <div className="text-center sm:text-left flex-1">
-                  <CardTitle className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+                  <CardTitle className="text-2xl sm:text-3xl font-bold text-foreground mb-2">
                     {profileUser.name}
                   </CardTitle>
-                  <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-6 text-gray-600">
+                  <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-6 text-muted-foreground">
                     {profileUser.location && (
                       <div className="flex items-center">
                         <MapPin className="h-4 w-4 mr-1" />
@@ -150,13 +149,12 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
                     </div>
                   </div>
                   {profileUser.createdAt && (
-                    <p className="text-xs text-gray-500 mt-2">
+                    <p className="text-xs text-muted-foreground mt-2">
                       Member since {new Date(profileUser.createdAt.seconds * 1000).toLocaleDateString()}
                     </p>
                   )}
                 </div>
               </div>
-
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 w-full sm:w-auto">
                 {user && user.id !== profileUser.id && (
@@ -168,7 +166,6 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
                     Request Swap
                   </Button>
                 )}
-
                 {user?.isAdmin && (
                   <Button
                     variant="outline"
@@ -185,46 +182,43 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
               </div>
             </div>
           </CardHeader>
-
           <CardContent className="space-y-8">
             {/* Bio */}
             {profileUser.bio && (
-              <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-xl border border-blue-200">
-                <h3 className="font-semibold text-lg mb-3 text-gray-900 flex items-center">
+              <div className="bg-muted p-6 rounded-xl border border-border">
+                <h3 className="font-semibold text-lg mb-3 text-foreground flex items-center">
                   <Sparkles className="h-5 w-5 mr-2 text-blue-600" />
                   About
                 </h3>
-                <p className="text-gray-700 leading-relaxed">{profileUser.bio}</p>
+                <p className="text-muted-foreground leading-relaxed">{profileUser.bio}</p>
               </div>
             )}
-
             {/* Skills Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {/* Skills Offered */}
               <div className="space-y-4">
-                <h3 className="font-semibold text-lg text-gray-900 flex items-center">
+                <h3 className="font-semibold text-lg text-foreground flex items-center">
                   <div className="w-3 h-3 bg-blue-500 rounded-full mr-3"></div>
                   Skills I Can Teach
-                  <Badge className="ml-2 bg-blue-100 text-blue-800 border-blue-200">
+                  <Badge className="ml-2 bg-primary/10 text-primary border-primary/20">
                     {(profileUser.skillsOffered || []).length}
                   </Badge>
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {(profileUser.skillsOffered || []).length > 0 ? (
                     (profileUser.skillsOffered || []).map((skill: string, index: number) => (
-                      <Badge key={index} className="bg-blue-100 text-blue-800 border-blue-200 px-3 py-1">
+                      <Badge key={index} className="bg-primary/10 text-primary border-primary/20 px-3 py-1">
                         {skill}
                       </Badge>
                     ))
                   ) : (
-                    <p className="text-gray-500 italic">No skills offered yet</p>
+                    <p className="text-muted-foreground italic">No skills offered yet</p>
                   )}
                 </div>
               </div>
-
               {/* Skills Wanted */}
               <div className="space-y-4">
-                <h3 className="font-semibold text-lg text-gray-900 flex items-center">
+                <h3 className="font-semibold text-lg text-foreground flex items-center">
                   <div className="w-3 h-3 bg-purple-500 rounded-full mr-3"></div>
                   Skills I Want to Learn
                   <Badge className="ml-2 bg-purple-100 text-purple-800 border-purple-200">
@@ -234,51 +228,38 @@ export default function UserProfilePage({ params }: { params: { id: string } }) 
                 <div className="flex flex-wrap gap-2">
                   {(profileUser.skillsWanted || []).length > 0 ? (
                     (profileUser.skillsWanted || []).map((skill: string, index: number) => (
-                      <Badge key={index} variant="outline" className="border-purple-200 text-purple-700 px-3 py-1">
+                      <Badge key={index} variant="outline" className="border-purple-400 text-purple-300 px-3 py-1">
                         {skill}
                       </Badge>
                     ))
                   ) : (
-                    <p className="text-gray-500 italic">No learning goals specified yet</p>
+                    <p className="text-muted-foreground italic">No learning goals specified yet</p>
                   )}
                 </div>
               </div>
             </div>
-
             {/* Stats Section */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-              <div className="bg-white/50 p-4 rounded-lg text-center border border-gray-200">
-                <div className="text-2xl font-bold text-blue-600">{(profileUser.skillsOffered || []).length}</div>
-                <div className="text-xs text-gray-600">Skills Offered</div>
+              <div className="bg-muted p-4 rounded-lg text-center border border-border">
+                <div className="text-2xl font-bold text-foreground mb-1">{profileUser.completedSwaps || 0}</div>
+                <div className="text-sm text-muted-foreground">Swaps</div>
               </div>
-              <div className="bg-white/50 p-4 rounded-lg text-center border border-gray-200">
-                <div className="text-2xl font-bold text-purple-600">{(profileUser.skillsWanted || []).length}</div>
-                <div className="text-xs text-gray-600">Skills Wanted</div>
+              <div className="bg-muted p-4 rounded-lg text-center border border-border">
+                <div className="text-2xl font-bold text-foreground mb-1">{profileUser.rating || 5.0}</div>
+                <div className="text-sm text-muted-foreground">Rating</div>
               </div>
-              <div className="bg-white/50 p-4 rounded-lg text-center border border-gray-200">
-                <div className="text-2xl font-bold text-yellow-600">{(profileUser.rating || 5.0).toFixed(1)}</div>
-                <div className="text-xs text-gray-600">Rating</div>
+              <div className="bg-muted p-4 rounded-lg text-center border border-border">
+                <div className="text-2xl font-bold text-foreground mb-1">{(profileUser.skillsOffered || []).length}</div>
+                <div className="text-sm text-muted-foreground">Skills Offered</div>
               </div>
-              <div className="bg-white/50 p-4 rounded-lg text-center border border-gray-200">
-                <div className="text-2xl font-bold text-green-600">
-                  {profileUser.availability === "flexible" ? "24/7" : profileUser.availability}
-                </div>
-                <div className="text-xs text-gray-600">Availability</div>
+              <div className="bg-muted p-4 rounded-lg text-center border border-border">
+                <div className="text-2xl font-bold text-foreground mb-1">{(profileUser.skillsWanted || []).length}</div>
+                <div className="text-sm text-muted-foreground">Skills Wanted</div>
               </div>
             </div>
           </CardContent>
         </Card>
       </main>
-
-      {/* Swap Request Modal */}
-      {showRequestModal && (
-        <SwapRequestModal
-          isOpen={showRequestModal}
-          onClose={() => setShowRequestModal(false)}
-          targetUser={profileUser}
-          currentUser={user}
-        />
-      )}
     </div>
   )
 }
