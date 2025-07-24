@@ -17,6 +17,7 @@ import GamificationDashboard from "@/components/gamification-dashboard"
 import AvatarSelector from "@/components/avatar-selector"
 import { getAvatarById } from "@/lib/avatars"
 import { useTheme } from "next-themes"
+import SplashCursor from "@/Reactbits/SplashCursor/SplashCursor"
 
 export default function ProfilePage() {
   const { user, updateProfile, logout, loading } = useAuth()

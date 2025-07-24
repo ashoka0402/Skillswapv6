@@ -11,6 +11,7 @@ import { useAuth } from "@/lib/auth-context"
 import SwapRequestModal from "@/components/swap-request-modal"
 import { doc, getDoc } from "firebase/firestore"
 import { db } from "@/lib/firebase"
+import SplashCursor from "@/Reactbits/SplashCursor/SplashCursor"
 
 export default function UserProfilePage({ params }: { params: { id: string } }) {
   const { user } = useAuth()
